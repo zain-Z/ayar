@@ -49,7 +49,6 @@ class RegisterSerializer(CountryFieldMixin, serializers.ModelSerializer):
         username = attrs.get('username', '')
         password = attrs.get('password', '')
         confirm_password = attrs.get('confirm_password', '')
-        phone = attrs.get('phone', '')
         work_title = attrs.get('work_title', '')
         work_description = attrs.get('work_description', '')
         work_url = attrs.get('work_url', '')
@@ -69,13 +68,10 @@ class RegisterSerializer(CountryFieldMixin, serializers.ModelSerializer):
         if password != confirm_password:
             raise serializers.ValidationError("Those passwords don't match.")
 
-        if not username.isalnum():
+        if not username.isalpha():
             raise serializers.ValidationError(
                 self.default_error_messages)
 
-        if not phone.isalnum():
-            raise serializers.ValidationError(
-                self.default_error_messages)
         return attrs
 
     def create(self, validated_data):

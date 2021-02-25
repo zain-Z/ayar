@@ -18,11 +18,7 @@ from django.dispatch import receiver
 
 class UserManager(BaseUserManager):
 
-    def create_user(self, language, user_type, username, country,
-                    country_code, phone, email, job, skills,
-                    profile_image, background_image, about_me,
-                    work_title, work_description, work_url,
-                    work_date, work_skills, upload_work_files,
+    def create_user(self,  username, email,
                     password=None, confirm_password=True):
 
         if username is None:
@@ -31,24 +27,12 @@ class UserManager(BaseUserManager):
         if email is None:
             raise TypeError('Users should have an Email')
 
-        user = self.model(language=language,
-                          user_type=user_type,
-                          username=username,
-                          country=country,
-                          country_code=country_code,
-                          phone=phone,
-                          email=self.normalize_email(email),
-                          job=job,
-                          skills=skills,
-                          about_me=about_me,
-                          profile_image=profile_image,
-                          background_image=background_image,
-                          work_title=work_title,
-                          work_description=work_description,
-                          work_url=work_url,
-                          work_date=work_date,
-                          work_skills=work_skills,
-                          upload_work_files=upload_work_files)
+        user = self.model(
+            username=username,
+
+            email=self.normalize_email(email),
+
+        )
 
         user.set_password(password)
         user.save()

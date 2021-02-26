@@ -1,6 +1,6 @@
 from rest_framework.generics import ListCreateAPIView,\
     RetrieveUpdateDestroyAPIView
-from .serializers import UserTaskSerializer, \
+from .serializers import CustomUserTaskSerializer, \
     SkillTaskSerializer, UsersSkillTaskSerializer,\
     ProjectTaskSerializer, TaskTaskSerializer, TaskSkillsRequiredTaskSerializer, ApplicantTaskSerializer, ContributorTaskSerializer, UserRatingTaskSerializer
 from .models import Skill, UsersSkill, Project, Task, Applicant, UserRating, Contributor, TaskSkillsRequired
@@ -23,8 +23,8 @@ from email.mime.base import MIMEBase
 from email import encoders
 
 
-class UserListAPIView(ListCreateAPIView):
-    serializer_class = UserTaskSerializer
+class CustomUserListAPIView(ListCreateAPIView):
+    serializer_class = CustomUserTaskSerializer
     queryset = User.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -35,8 +35,8 @@ class UserListAPIView(ListCreateAPIView):
         return self.queryset.filter(owner=self.request.user)
 
 
-class UserDetailAPIView(RetrieveUpdateDestroyAPIView):
-    serializer_class = UserTaskSerializer
+class CustomUserDetailAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = CustomUserTaskSerializer
     queryset = User.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -161,10 +161,10 @@ class ContributorListAPIView(ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def perform_create(self, serializer):
-        return serializer.save(user=self.request.user)
+        return serializer.save(owner=self.request.user)
 
     def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
+        return self.queryset.filter(owner=self.request.user)
 
 
 class ContributorDetailAPIView(RetrieveUpdateDestroyAPIView):

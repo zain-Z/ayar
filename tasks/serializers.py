@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from authentication.models import User
 from .models import Skill, UsersSkill, Project, Task, Applicant, UserRating, Contributor, TaskSkillsRequired
+from authentication.models import User
 
 
-class UserTaskSerializer(serializers.ModelSerializer):
+class CustomUserTaskSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User

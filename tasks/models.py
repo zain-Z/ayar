@@ -12,11 +12,11 @@ class Skill(models.Model):
 
 class UsersSkill(models.Model):
     skill = models.ForeignKey(Skill, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     level_of_proficiency = models.IntegerField(default=1)
 
     def __str__(self):
-        return str(self.user.user.username) + "/" + str(self.skill.skill_name) + "/" + str(self.level_of_proficiency)
+        return str(self.owner.username) + "/" + str(self.skill.skill_name) + "/" + str(self.level_of_proficiency)
 
 
 class Project(models.Model):
@@ -61,22 +61,22 @@ class TaskSkillsRequired(models.Model):
 
 
 class Applicant(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     time_of_application = models.DateTimeField(auto_now_add=True, blank=True)
 
     def __str__(self):
-        return str(self.user.user.username) + '[id=' + str(self.user.id) + ']'
+        return str(self.owner.username) + '[id=' + str(self.user.id) + ']'
 
 
 class Contributor(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     isCreditVerified = models.BooleanField(default=False)
     time_of_selection = models.DateTimeField(auto_now_add=True, blank=True)
 
     def __str__(self):
-        return str(self.user.user.username) + '[id=' + str(self.user.id) + ']'
+        return str(self.owner.username) + '[id=' + str(self.owner.id) + ']'
 
 
 class UserRating(models.Model):
@@ -89,4 +89,4 @@ class UserRating(models.Model):
     e_rating = models.DecimalField(default=0, max_digits=2, decimal_places=1)
 
     def __str__(self):
-        return str(self.task.id)+"--"+str(self.fre.user.username)+"--"+str(self.emp.user.username)
+        return str(self.task.id)+"--"+str(self.fre.username)+"--"+str(self.emp.user.username)

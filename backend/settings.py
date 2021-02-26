@@ -115,14 +115,11 @@ CORS_ORIGIN_REGEX_WHITELIST = [
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': '*****',
-        'USER': '******',
-        'PASSWORD': '*******',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
 
 DATABASE_URL = ['DATABASE_URL']
 

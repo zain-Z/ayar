@@ -3,9 +3,9 @@ from . import views
 
 app_name = 'tasks'
 urlpatterns = [
-    path('CustomUser', views.CustomUserListAPIView.as_view(), name="CustomUser"),
-    path('CustomUser/<int:id>', views.CustomUserDetailAPIView.as_view(),
-         name="CustomUser-partial-id"),
+    path('User', views.UserListAPIView.as_view(), name="User"),
+    path('User/<int:id>', views.UserDetailAPIView.as_view(),
+         name="User-partial-id"),
 
     path('Skill', views.SkillListAPIView.as_view(), name="Skill"),
     path('Skill/<int:id>', views.SkillDetailAPIView.as_view(),

@@ -1,11 +1,12 @@
 from rest_framework import serializers
-from .models import CustomUser, Skill, UsersSkill, Project, Task, Applicant, UserRating, Contributor, TaskSkillsRequired
+from authentication.models import User
+from .models import Skill, UsersSkill, Project, Task, Applicant, UserRating, Contributor, TaskSkillsRequired
 
 
-class CustomUserTaskSerializer(serializers.ModelSerializer):
+class UserTaskSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = CustomUser
+        model = User
         fields = ['id', 'user', 'phone', 'about_me', 'profile_image']
 
 

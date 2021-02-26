@@ -3,20 +3,6 @@ from authentication.models import User
 import os
 
 
-class CustomUser(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=11, default=None)
-    about_me = models.TextField(max_length=500, default=None)
-    profile_image = models.ImageField(upload_to='profiles/')
-
-    def __str__(self):
-        return self.user.username
-
-    def delete(self, *args, **kwargs):
-        os.remove(self.image.name)
-        super(CustomUser, self).delete(*args, **kwargs)
-
-
 class Skill(models.Model):
     skill_name = models.CharField(max_length=50, blank=False, unique=True)
 
@@ -26,7 +12,7 @@ class Skill(models.Model):
 
 class UsersSkill(models.Model):
     skill = models.ForeignKey(Skill, on_delete=models.CASCADE)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     level_of_proficiency = models.IntegerField(default=1)
 
     def __str__(self):
@@ -75,7 +61,7 @@ class TaskSkillsRequired(models.Model):
 
 
 class Applicant(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     time_of_application = models.DateTimeField(auto_now_add=True, blank=True)
 
@@ -84,7 +70,7 @@ class Applicant(models.Model):
 
 
 class Contributor(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     isCreditVerified = models.BooleanField(default=False)
     time_of_selection = models.DateTimeField(auto_now_add=True, blank=True)
@@ -96,9 +82,9 @@ class Contributor(models.Model):
 class UserRating(models.Model):
     task = models.OneToOneField(Task, on_delete=models.CASCADE)
     emp = models.ForeignKey(
-        CustomUser, related_name='rating_by', on_delete=models.CASCADE)
+        User, related_name='rating_by', on_delete=models.CASCADE)
     fre = models.ForeignKey(
-        CustomUser, related_name='rating_to', on_delete=models.CASCADE)
+        User, related_name='rating_to', on_delete=models.CASCADE)
     f_rating = models.DecimalField(default=0, max_digits=2, decimal_places=1)
     e_rating = models.DecimalField(default=0, max_digits=2, decimal_places=1)
 

@@ -1,9 +1,9 @@
 from rest_framework.generics import ListCreateAPIView,\
     RetrieveUpdateDestroyAPIView
-from .serializers import CustomUserTaskSerializer, \
+from .serializers import UserTaskSerializer, \
     SkillTaskSerializer, UsersSkillTaskSerializer,\
     ProjectTaskSerializer, TaskTaskSerializer, TaskSkillsRequiredTaskSerializer, ApplicantTaskSerializer, ContributorTaskSerializer, UserRatingTaskSerializer
-from .models import CustomUser, Skill, UsersSkill, Project, Task, Applicant, UserRating, Contributor, TaskSkillsRequired
+from .models import Skill, UsersSkill, Project, Task, Applicant, UserRating, Contributor, TaskSkillsRequired
 from .permissions import IsOwner
 from rest_framework import permissions
 import json
@@ -23,9 +23,9 @@ from email.mime.base import MIMEBase
 from email import encoders
 
 
-class CustomUserListAPIView(ListCreateAPIView):
-    serializer_class = CustomUserTaskSerializer
-    queryset = CustomUser.objects.all()
+class UserListAPIView(ListCreateAPIView):
+    serializer_class = UserTaskSerializer
+    queryset = User.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
 
     def perform_create(self, serializer):
@@ -35,9 +35,9 @@ class CustomUserListAPIView(ListCreateAPIView):
         return self.queryset.filter(owner=self.request.user)
 
 
-class CustomUserDetailAPIView(RetrieveUpdateDestroyAPIView):
-    serializer_class = CustomUserTaskSerializer
-    queryset = CustomUser.objects.all()
+class UserDetailAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = UserTaskSerializer
+    queryset = User.objects.all()
     permission_classes = (permissions.IsAuthenticated,)
 
     def perform_create(self, serializer):
@@ -271,7 +271,7 @@ def jobs_update(request):
     context = dict()
     cuser = None
     if request.user.is_authenticated:
-        cuser = CustomUser.objects.get(user=request.user)
+        cuser = User.objects.get(user=request.user)
     jobs = applicable_jobs(cuser)
     # else:
     #     jobs = Task.objects.filter(isCompleted=False).order_by('-addedOn')
@@ -313,7 +313,7 @@ def browse_jobs(request):
     context = dict()
     cuser = None
     if request.user.is_authenticated:
-        cuser = CustomUser.objects.get(user=request.user)
+        cuser = User.objects.get(user=request.user)
     context['jobs'] = applicable_jobs(cuser)
     skill_list = Skill.objects.all()
 
@@ -359,7 +359,7 @@ def post_project(request):
             project = Project()
             project.project_name = project_name
             project.description = description
-            project.leader = CustomUser.objects.get(user=request.user.id)
+            project.leader = User.objects.get(user=request.user.id)
             project.deadline = deadline
             project.postedOn = datetime.now()
             project.save()
@@ -453,7 +453,7 @@ def status_update(request, task):
 def apply_for_task(request, task):
     applicant = Applicant()
     applicant.task = Task.objects.get(id=task.id)
-    applicant.user = CustomUser.objects.get(user=request.user.id)
+    applicant.user = User.objects.get(user=request.user.id)
     applicant.save()
 
 
@@ -491,7 +491,7 @@ def select_user(request, task, context):
     if is_applicant:
         if task.contributor_set.count() == 0:
             contributor = Contributor()
-            contributor.user = CustomUser.objects.get(user=int(user_id))
+            contributor.user = User.objects.get(user=int(user_id))
             contributor.task = Task.objects.get(id=task.id)
             contributor.save()
             send_simple_message(str(contributor.user.user.email), "Selection for the Task"+str(), "You have been selected for the task "+str(
@@ -540,7 +540,7 @@ def task_description(request, project_id, task_id):
     context['month'] = month
     context['date'] = date
     # if(request.user.is_authenticated):
-    #     cuser=CustomUser.objects.get(user=request.user)
+    #     cuser=User.objects.get(user=request.user)
     #     if task.isCompleted:
     #         try:
     #             taskuserrating = UserRating.get(task=task)
@@ -602,7 +602,7 @@ def admin(request):
 def user_profile(request, username):
     context = dict()
     user = User.objects.get(username=username)
-    cuser = CustomUser.objects.get(user=user)
+    cuser = User.objects.get(user=user)
     context['cuser'] = cuser
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -647,7 +647,7 @@ def give_rating(cuser):
 def myprojects(request):
     if request.user.is_authenticated:
         context = {}
-        cuser = CustomUser.objects.get(user=request.user)
+        cuser = User.objects.get(user=request.user)
         posted_tasks = [j for i in cuser.project_set.all()
                         for j in i.task_set.all()]
         contributor_tasks = [i.task for i in cuser.contributor_set.all()]

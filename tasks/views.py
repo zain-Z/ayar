@@ -161,10 +161,10 @@ class ContributorListAPIView(ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def perform_create(self, serializer):
-        return serializer.save(owner=self.request.user)
+        return serializer.save(user=self.request.user)
 
     def get_queryset(self):
-        return self.queryset.filter(owner=self.request.user)
+        return self.queryset.filter(user=self.request.user)
 
 
 class ContributorDetailAPIView(RetrieveUpdateDestroyAPIView):

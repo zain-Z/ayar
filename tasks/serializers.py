@@ -7,7 +7,7 @@ class CustomUserTaskSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'user', 'phone', 'about_me', 'profile_image']
+        fields = ['id', 'username', 'phone', 'about_me', 'profile_image']
 
 
 class SkillTaskSerializer(serializers.ModelSerializer):
@@ -48,13 +48,13 @@ class TaskSkillsRequiredTaskSerializer(serializers.ModelSerializer):
 class ApplicantTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Applicant
-        fields = ['id', 'task', 'user', 'time_of_application']
+        fields = ['id', 'task', 'owner', 'time_of_application']
 
 
 class ContributorTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contributor
-        fields = ['id', 'user', 'task',
+        fields = ['id', 'owner', 'task',
                   'isCreditVerified', 'time_of_selection']
 
 

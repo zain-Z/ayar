@@ -41,6 +41,18 @@ class RegisterSerializer(CountryFieldMixin, serializers.ModelSerializer):
                   'work_date',
                   'work_skills',
                   'upload_work_files',
+                  'upload_work_files_one',
+                  'upload_work_files_two',
+                  'upload_work_files_three',
+                  'upload_work_files_four',
+                  'upload_work_files_five',
+                  'upload_work_files_six',
+                  'upload_work_files_seven',
+                  'upload_work_files_eight',
+                  'upload_work_files_nine',
+                  'upload_work_files_ten',
+                  'upload_work_files_eleven',
+                  'upload_work_files_twelve',
                   'password',
                   'confirm_password']
 
@@ -104,7 +116,7 @@ class LoginSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'email', 'password', 'user_type', 'tokens']
+        fields = ['email', 'password', 'user_type', 'tokens']
 
     def validate(self, attrs):
         email = attrs.get('email', '')
@@ -126,7 +138,6 @@ class LoginSerializer(serializers.ModelSerializer):
             raise AuthenticationFailed('Email is not verified')
 
         return {
-            'id': user.id,
             'email': user.email,
             'user_type': user.user_type,
             'tokens': user.tokens

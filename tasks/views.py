@@ -306,7 +306,7 @@ def jobs_update(request):
     print(filtered_tasks_skills, filtered_tasks_credits)
     context['jobs'] = jobs
     print(jobs)
-    return render(request, 'jobs.html', context)
+    return render(request, context)
 
 
 def browse_jobs(request):
@@ -321,7 +321,7 @@ def browse_jobs(request):
 
     if(request.method == 'GET'):
         context['skill_check'] = request.GET.get('skill', None)
-    return render(request, 'browsejobs.html', context)
+    return render(request,  context)
 
 
 def form_state(request, id=1):
@@ -342,7 +342,7 @@ def form_state(request, id=1):
         context['desc'] = request.COOKIES.get('desc')
         context['deadline'] = request.COOKIES.get('deadline')
         context['post_project'] = 'post_project'
-        response = render(request, 'postproject.html', context)
+        response = render(request, context)
         response.delete_cookie('post_project')
         response.delete_cookie('name')
         response.delete_cookie('desc')
@@ -366,7 +366,7 @@ def post_project(request):
             return redirect('Portal:project_description', project.id)
         else:
             return form_state(request)
-    return render(request, "postproject.html")
+    return render(request)
 
 
 def project_description(request, project_id):
@@ -387,7 +387,7 @@ def project_description(request, project_id):
     context['date'] = date
     if request.user.is_authenticated:
         context['is_leader'] = (project.leader.user == request.user)
-    return render(request, 'projectdescription.html', context)
+    return render(request,  context)
 
 
 def add_task(request, project_id):
@@ -429,7 +429,7 @@ def add_task(request, project_id):
     context['project_id'] = project_id
     skill_list = Skill.objects.all()
     context['skill_list'] = skill_list
-    return render(request, "addtask.html", context)
+    return render(request, context)
 
 
 def submit_task(request, task):
@@ -523,7 +523,7 @@ def applicants(request, task_id):
                 "work"] == "select" and request.user == task.project.leader.user:
             select_user(request, task, context)
         return redirect("Portal:applicants", task_id)
-    return render(request, "applicants.html", context)
+    return render(request, context)
 
 
 def task_description(request, project_id, task_id):
@@ -581,7 +581,7 @@ def task_description(request, project_id, task_id):
             elif request.POST["work"] == "start_working":
                 start_end_working(request, task, )
         return redirect("Portal:task_description", project_id, task_id)
-    return render(request, 'taskdescription.html', context)
+    return render(request,  context)
 
 
 def admin(request):
@@ -595,7 +595,7 @@ def admin(request):
             context['no_of_users'] = no_of_users
             context['no_of_jobs'] = no_of_jobs
             print(no_of_jobs)
-            return render(request, 'admindashboard.html', context)
+            return render(request, context)
         return HttpResponse('<center><h1>You are not admin.</h1></center>')
 
 
@@ -625,7 +625,7 @@ def user_profile(request, username):
     skill_list = Skill.objects.all()
     context['skill_list'] = skill_list
     context['erating'], context['frating'] = give_rating(cuser)
-    return render(request, 'profile.html', context)
+    return render(request,  context)
 
 
 def give_rating(cuser):
@@ -657,7 +657,7 @@ def myprojects(request):
                                 True]+[i for i in contributor_tasks if i.isCompleted == True]
         context['active'] = [i for i in posted_tasks if i.isCompleted ==
                              False]+[i for i in contributor_tasks if i.isCompleted == False]
-        return render(request, 'myprojects.html', context)
+        return render(request, context)
 
 
 def task_editfunction(request, project_id, task_id):
@@ -685,5 +685,5 @@ def task_editfunction(request, project_id, task_id):
         context['year'] = year
         context['month'] = month
         context['date'] = date
-        return render(request, 'edittask.html', context)
+        return render(request, context)
     return redirect("Portal:task_description", project_id, task_id)

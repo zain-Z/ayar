@@ -183,13 +183,53 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=True, null=True, validators=[validate_file_extension],
         upload_to='uploaded_files/')
 
-    @property
-    def list(self):
-        return json.loads(self.upload_work_files)
+    upload_work_files_one = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
 
-    @list.setter
-    def list(self, value):
-        self.upload_work_files = json.dumps(self.list + value)
+    upload_work_files_two = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_three = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_four = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_five = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_six = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_seven = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_eight = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_nine = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_ten = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_eleven = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_twelve = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
 
     work_dict = {work_title: work_description}
     print(work_dict)

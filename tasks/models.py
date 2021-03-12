@@ -46,6 +46,8 @@ class Task(models.Model):
     latest_submission_time = models.DateTimeField(blank=True, null=True)
     isCompleted = models.BooleanField(default=False)
     deadline = models.DateField(blank=False)
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.task_name

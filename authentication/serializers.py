@@ -77,7 +77,8 @@ class RegisterSerializer(CountryFieldMixin, serializers.ModelSerializer):
 class WorkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Work
-        fields = ['work_title',
+        fields = ['id',
+                  'work_title',
                   'work_description',
                   'work_url',
                   'work_date',

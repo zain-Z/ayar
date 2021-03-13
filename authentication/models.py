@@ -276,7 +276,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 ###############################################################################
 
-    work = models.OneToOneField(
+    work = models.ForeignKey(
         Work, on_delete=models.CASCADE, blank=True, null=True)
 
 ###############################################################################

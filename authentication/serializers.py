@@ -96,7 +96,7 @@ class WorkSerializer(serializers.ModelSerializer):
                   'upload_work_files_eleven',
                   'upload_work_files_twelve', ]
 
-     def validate(self, attrs):
+    def validate(self, attrs):
 
         work_title = attrs.get('work_title', '')
         work_description = attrs.get('work_description', '')
@@ -112,8 +112,6 @@ class WorkSerializer(serializers.ModelSerializer):
                      ( title, description, skills ).")
 
         return attrs
-
-    
 
 
 class EmailVerificationSerializer(serializers.ModelSerializer):

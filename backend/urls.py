@@ -40,8 +40,6 @@ urlpatterns = [
     path('auth/', include('authentication.urls')),
     path('social_auth/', include(('social_auth.urls', 'social_auth'),
                                  namespace="social_auth")),
-    path('expenses/', include('expenses.urls')),
-    path('income/', include('income.urls')),
     path('settings_app/', include('settings_app.urls')),
     path('tasks/', include('tasks.urls')),
     path("chat/", include("chat.urls")),

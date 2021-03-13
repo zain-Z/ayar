@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, Work
 from django.contrib import auth
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
@@ -35,24 +35,7 @@ class RegisterSerializer(CountryFieldMixin, serializers.ModelSerializer):
                   'profile_image',
                   'background_image',
                   'about_me',
-                  'work_title',
-                  'work_description',
-                  'work_url',
-                  'work_date',
-                  'work_skills',
-                  'upload_work_files',
-                  'upload_work_files_one',
-                  'upload_work_files_two',
-                  'upload_work_files_three',
-                  'upload_work_files_four',
-                  'upload_work_files_five',
-                  'upload_work_files_six',
-                  'upload_work_files_seven',
-                  'upload_work_files_eight',
-                  'upload_work_files_nine',
-                  'upload_work_files_ten',
-                  'upload_work_files_eleven',
-                  'upload_work_files_twelve',
+                  'work',
                   'password',
                   'confirm_password']
 
@@ -89,6 +72,48 @@ class RegisterSerializer(CountryFieldMixin, serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
+
+
+class WorkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Work
+        fields = ['work_title',
+                  'work_description',
+                  'work_url',
+                  'work_date',
+                  'work_skills',
+                  'upload_work_files',
+                  'upload_work_files_one',
+                  'upload_work_files_two',
+                  'upload_work_files_three',
+                  'upload_work_files_four',
+                  'upload_work_files_five',
+                  'upload_work_files_six',
+                  'upload_work_files_seven',
+                  'upload_work_files_eight',
+                  'upload_work_files_nine',
+                  'upload_work_files_ten',
+                  'upload_work_files_eleven',
+                  'upload_work_files_twelve', ]
+
+     def validate(self, attrs):
+
+        work_title = attrs.get('work_title', '')
+        work_description = attrs.get('work_description', '')
+        work_url = attrs.get('work_url', '')
+        work_date = attrs.get('work_date', '')
+        work_skills = attrs.get('work_skills', '')
+        upload_work_files = attrs.get('upload_work_files', '')
+
+        if (work_url or work_date or upload_work_files) and not \
+                (work_title and work_description and work_skills):
+            raise serializers.ValidationError(
+                "Please fill all required work fields\
+                     ( title, description, skills ).")
+
+        return attrs
+
+    
 
 
 class EmailVerificationSerializer(serializers.ModelSerializer):

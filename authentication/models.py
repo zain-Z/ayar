@@ -16,14 +16,121 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 
+class Work(models.Model):
+    work_title = models.CharField(
+        max_length=255, null=True, default=" ", blank=True)
+
+    work_description = models.TextField(
+        null=True, default="", blank=True)
+
+    work_url = models.CharField(
+        max_length=255, blank=True, null=True)
+
+    work_date = models.DateField(
+        editable=True, blank=True, null=True, auto_now=False,
+        auto_now_add=False)
+
+    work_skills = models.TextField(default="", blank=True, null=True)
+
+    @property
+    def list(self):
+        return json.loads(self.work_skills)
+
+    @list.setter
+    def list(self, value):
+        self.work_skills = json.dumps(self.list + value)
+
+    upload_work_files = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_one = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_two = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_three = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_four = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_five = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_six = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_seven = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_eight = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_nine = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_ten = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_eleven = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    upload_work_files_twelve = models.FileField(
+        blank=True, null=True, validators=[validate_file_extension],
+        upload_to='uploaded_files/')
+
+    work_dict = {work_title: work_description}
+    print(work_dict)
+
+
 class UserManager(BaseUserManager):
 
-    def create_user(self, language, user_type, username, country,
-                    country_code, phone, email, job, skills,
-                    profile_image, background_image, about_me,
-                    work_title, work_description, work_url,
-                    work_date, work_skills, upload_work_files,
-                    password=None, confirm_password=True):
+    def create_user(self,
+                    language,
+                    user_type,
+                    username,
+                    country,
+                    country_code,
+                    phone,
+                    email,
+                    job,
+                    skills,
+                    profile_image,
+                    background_image,
+                    about_me,
+                    work_title,
+                    work_description,
+                    work_url,
+                    work_date,
+                    work_skills,
+                    upload_work_files,
+                    upload_work_files_one,
+                    upload_work_files_two,
+                    upload_work_files_three,
+                    upload_work_files_four,
+                    upload_work_files_five,
+                    upload_work_files_six,
+                    upload_work_files_seven,
+                    upload_work_files_eight,
+                    upload_work_files_nine,
+                    upload_work_files_ten,
+                    upload_work_files_eleven,
+                    upload_work_files_twelve,
+                    password=None,
+                    confirm_password=True):
 
         if username is None:
             raise TypeError('Users should have a username')
@@ -43,12 +150,25 @@ class UserManager(BaseUserManager):
                           about_me=about_me,
                           profile_image=profile_image,
                           background_image=background_image,
-                          work_title=work_title,
-                          work_description=work_description,
-                          work_url=work_url,
-                          work_date=work_date,
-                          work_skills=work_skills,
-                          upload_work_files=upload_work_files)
+                          work=work,)
+        """work_title=work_title,
+            work_description=work_description,
+            work_url=work_url,
+            work_date=work_date,
+            work_skills=work_skills,
+            upload_work_files=upload_work_files,
+            upload_work_files_one=upload_work_files_one,
+            upload_work_files_two=upload_work_files_two,
+            upload_work_files_three=upload_work_files_three,
+            upload_work_files_four=upload_work_files_four,
+            upload_work_files_five=upload_work_files_five,
+            upload_work_files_six=upload_work_files_six,
+            upload_work_files_seven=upload_work_files_seven,
+            upload_work_files_eight=upload_work_files_eight,
+            upload_work_files_nine=upload_work_files_nine,
+            upload_work_files_ten=upload_work_files_ten,
+            upload_work_files_eleven=upload_work_files_eleven,
+            upload_work_files_twelve=upload_work_files_twelve"""
 
         user.set_password(password)
         user.save()
@@ -156,83 +276,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 ###############################################################################
 
-    work_title = models.CharField(
-        max_length=255, null=True, default=" ", blank=True)
-
-    work_description = models.TextField(
-        null=True, default="", blank=True)
-
-    work_url = models.CharField(
-        max_length=255, blank=True, null=True)
-
-    work_date = models.DateField(
-        editable=True, blank=True, null=True, auto_now=False,
-        auto_now_add=False)
-
-    work_skills = models.TextField(default="", blank=True, null=True)
-
-    @property
-    def list(self):
-        return json.loads(self.work_skills)
-
-    @list.setter
-    def list(self, value):
-        self.work_skills = json.dumps(self.list + value)
-
-    upload_work_files = models.FileField(
-        blank=True, null=True, validators=[validate_file_extension],
-        upload_to='uploaded_files/')
-
-    upload_work_files_one = models.FileField(
-        blank=True, null=True, validators=[validate_file_extension],
-        upload_to='uploaded_files/')
-
-    upload_work_files_two = models.FileField(
-        blank=True, null=True, validators=[validate_file_extension],
-        upload_to='uploaded_files/')
-
-    upload_work_files_three = models.FileField(
-        blank=True, null=True, validators=[validate_file_extension],
-        upload_to='uploaded_files/')
-
-    upload_work_files_four = models.FileField(
-        blank=True, null=True, validators=[validate_file_extension],
-        upload_to='uploaded_files/')
-
-    upload_work_files_five = models.FileField(
-        blank=True, null=True, validators=[validate_file_extension],
-        upload_to='uploaded_files/')
-
-    upload_work_files_six = models.FileField(
-        blank=True, null=True, validators=[validate_file_extension],
-        upload_to='uploaded_files/')
-
-    upload_work_files_seven = models.FileField(
-        blank=True, null=True, validators=[validate_file_extension],
-        upload_to='uploaded_files/')
-
-    upload_work_files_eight = models.FileField(
-        blank=True, null=True, validators=[validate_file_extension],
-        upload_to='uploaded_files/')
-
-    upload_work_files_nine = models.FileField(
-        blank=True, null=True, validators=[validate_file_extension],
-        upload_to='uploaded_files/')
-
-    upload_work_files_ten = models.FileField(
-        blank=True, null=True, validators=[validate_file_extension],
-        upload_to='uploaded_files/')
-
-    upload_work_files_eleven = models.FileField(
-        blank=True, null=True, validators=[validate_file_extension],
-        upload_to='uploaded_files/')
-
-    upload_work_files_twelve = models.FileField(
-        blank=True, null=True, validators=[validate_file_extension],
-        upload_to='uploaded_files/')
-
-    work_dict = {work_title: work_description}
-    print(work_dict)
+    work = models.OneToOneField(
+        Work, on_delete=models.CASCADE, blank=True, null=True)
 
 ###############################################################################
 
